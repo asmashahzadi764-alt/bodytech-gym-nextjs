@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0e1b26;
+  color: #eef3f6;
+}
+
+/* Dark-tint the Google Maps embed so it doesn't clash with the theme */
+.map-frame iframe {
+  filter: invert(92%) hue-rotate(180deg) grayscale(15%) contrast(90%);
+}
+
+::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2b3f4f;
+  border-radius: 999px;
+}

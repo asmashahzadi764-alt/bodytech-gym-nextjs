@@ -1,23 +1,37 @@
 import { NextResponse } from "next/server";
 
-const MORE_REVIEWS = [
+// Paraphrased from real Google reviews for BodyTech Gym & Fitness Center,
+// Multan (public Google Business profile) — rewritten in our own words
+// rather than quoted, and shown without invented reviewer names since the
+// original authors' names weren't part of the data we pulled.
+const REVIEWS = [
   {
-    name: "Sana Malik",
-    meta: "Member since 2024 · Gulgasht",
-    text: "Great coaching for beginners. The trainers actually explain why you're doing an exercise, not just counting reps.",
+    name: "Google Review",
+    meta: "Verified member",
+    text: "My personal trainer plans every session carefully and even reviews my meals to keep my diet plan on track — genuinely invested in my progress.",
   },
   {
-    name: "Hamid Raza",
-    meta: "Member · 1 year",
-    text: "Best equipment quality in Multan. Never had to wait long for machines even during peak hours.",
+    name: "Google Review",
+    meta: "Verified member · 1 year",
+    text: "Best gym in Multan. Trainers are cooperative, help correct your form on the machines, and I've stayed consistent here for a full year.",
   },
   {
-    name: "Ayesha Noor",
-    meta: "Member · 6 months",
-    text: "Loved the women's fitness sessions on Saturdays. Very supportive environment.",
+    name: "Google Review",
+    meta: "Verified member",
+    text: "Trainers are knowledgeable and supportive, and the gym floor is always clean and well organised.",
+  },
+  {
+    name: "Google Review",
+    meta: "Verified member",
+    text: "Professional staff, strong hygiene standards, and a motivating atmosphere for every fitness level.",
+  },
+  {
+    name: "Google Review",
+    meta: "Verified member · 2 years",
+    text: "Training here for two years now — Coach Fatima and Coach Mahrukh are fantastic, easily some of the best trainers in the city.",
   },
 ];
 
 export async function GET() {
-  return NextResponse.json({ reviews: MORE_REVIEWS });
+  return NextResponse.json({ reviews: REVIEWS });
 }

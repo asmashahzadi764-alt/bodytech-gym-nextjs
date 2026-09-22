@@ -6,6 +6,7 @@ import Trainers from "./components/Trainers";
 import Gallery from "./components/Gallery";
 import Reviews from "./components/Reviews";
 import ScheduleContact from "./components/ScheduleContact";
+import CTA from "./components/CTA";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
       <Gallery />
       <Reviews />
       <ScheduleContact />
+      <CTA />
       <Footer />
     </main>
   );

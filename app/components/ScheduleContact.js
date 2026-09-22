@@ -1,38 +1,69 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const SCHEDULE = [
-  { day: "Mon / Wed / Fri", time: "6:30 AM", name: "Morning Strength Club" },
-  { day: "Tue / Thu / Sat", time: "6:00 PM", name: "Conditioning & HIIT" },
-  { day: "Mon – Sat", time: "8:00 AM – 8:00 PM", name: "Open Gym Floor" },
-  { day: "Sat", time: "11:00 AM", name: "Women's Fitness Session" },
-];
+// Change this to whichever email should receive trial-booking requests.
+const GYM_CONTACT_EMAIL = "your-email@gmail.com";
 
 export default function ScheduleContact() {
+  const [schedule, setSchedule] = useState([]);
+  const [businessHours, setBusinessHours] = useState(null);
   const [scheduleOpen, setScheduleOpen] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", time: "" });
   const [status, setStatus] = useState("idle"); // idle | sending | sent | error
 
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/schedule")
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) {
+          setSchedule(data.schedule || []);
+          setBusinessHours(data.businessHours || null);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   function handleChange(e) {
     setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
+  }
+
+  function buildMailtoLink() {
+    const subject = `New trial booking: ${form.name}`;
+    const body = [
+      `Name: ${form.name}`,
+      `Phone / WhatsApp: ${form.phone}`,
+      `Preferred workout window: ${form.time || "Not specified"}`,
+    ].join("\n");
+
+    return `mailto:${GYM_CONTACT_EMAIL}?subject=${encodeURIComponent(
+      subject
+    )}&body=${encodeURIComponent(body)}`;
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("sending");
     try {
-      const res = await fetch("/api/trial-booking", {
+      // Best-effort local log — see app/api/trial-booking/route.js
+      await fetch("/api/trial-booking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      if (!res.ok) throw new Error("Request failed");
-      setStatus("sent");
-      setForm({ name: "", phone: "", time: "" });
     } catch (err) {
-      setStatus("error");
+      // Ignore — the mailto link below is what actually delivers the request.
     }
+
+    // Opens the visitor's own email app with a pre-filled message to the gym.
+    window.location.href = buildMailtoLink();
+
+    setStatus("sent");
+    setForm({ name: "", phone: "", time: "" });
   }
 
   return (
@@ -43,9 +74,14 @@ export default function ScheduleContact() {
           <span className="text-accent text-xs uppercase tracking-widest font-semibold">
             Weekly Schedule
           </span>
-          <h2 className="font-display font-semibold text-2xl sm:text-3xl text-text">
-            Coaching sessions this week
+          <h2 className="font-display uppercase text-3xl sm:text-4xl text-text">
+            Coaching Sessions This Week
           </h2>
+          {businessHours && (
+            <p className="text-xs text-muted -mt-2">
+              Open {businessHours.weekdayRange}, {businessHours.weekdays} · Closed {businessHours.closed}
+            </p>
+          )}
 
           <button
             onClick={() => setScheduleOpen((v) => !v)}
@@ -56,7 +92,7 @@ export default function ScheduleContact() {
 
           {scheduleOpen && (
             <div className="flex flex-col gap-2 mt-2">
-              {SCHEDULE.map((s) => (
+              {schedule.map((s) => (
                 <div
                   key={s.name}
                   className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 rounded-lg bg-surface border border-border px-4 py-3"
@@ -92,7 +128,7 @@ export default function ScheduleContact() {
 
         {/* Contact form */}
         <div id="contact" className="rounded-2xl bg-surface border border-border p-6 sm:p-8 flex flex-col gap-4 h-fit">
-          <h3 className="font-display font-semibold text-xl text-text">Book your free trial</h3>
+          <h3 className="font-display uppercase text-2xl text-text">Book Your Free Trial</h3>
           <p className="text-sm text-muted">
             Fill this in and our team will confirm your slot by WhatsApp.
           </p>
@@ -148,7 +184,7 @@ export default function ScheduleContact() {
             <button
               type="submit"
               disabled={status === "sending"}
-              className="mt-2 rounded-lg bg-accent hover:bg-accentDark text-base font-semibold px-6 py-3 disabled:opacity-60"
+              className="mt-2 rounded-full bg-accent hover:bg-accentDark text-white font-display uppercase tracking-wide text-sm px-6 py-3.5 disabled:opacity-60"
             >
               {status === "sending" ? "Booking..." : "Book your trial"}
             </button>

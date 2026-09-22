@@ -22,12 +22,12 @@ export default function Navbar() {
           <Image
             src="/images/logo.png"
             alt="BodyTech Gym logo"
-            width={32}
-            height={32}
+            width={34}
+            height={34}
             className="rounded"
           />
-          <span className="font-display font-semibold text-text tracking-tight truncate">
-            BodyTech Gym
+          <span className="font-display text-lg tracking-wide text-text truncate">
+            BODY<span className="text-accent">TECH</span>
           </span>
         </div>
 
@@ -47,7 +47,7 @@ export default function Navbar() {
         <div className="hidden md:block">
           <a
             href="#contact"
-            className="inline-flex items-center justify-center rounded-lg bg-accent hover:bg-accentDark text-base font-semibold text-sm px-4 py-2 transition-colors"
+            className="inline-flex items-center justify-center rounded-lg bg-accent hover:bg-accentDark text-white font-semibold text-sm px-4 py-2 transition-colors"
           >
             Book a Trial
           </a>
@@ -87,7 +87,7 @@ export default function Navbar() {
           <a
             href="#contact"
             onClick={() => setOpen(false)}
-            className="mt-2 inline-flex items-center justify-center rounded-lg bg-accent text-base font-semibold text-sm px-4 py-3"
+            className="mt-2 inline-flex items-center justify-center rounded-lg bg-accent text-white font-semibold text-sm px-4 py-3"
           >
             Book a Trial
           </a>

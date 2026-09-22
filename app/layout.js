@@ -7,14 +7,13 @@ export const metadata = {
 };
 
 // Structured data matching BodyTech Gym's real Google Business profile —
-// update "url" once the site is deployed so Google can match this listing
-// to the live page (needed for Rich Results / Search Console verification).
+// used for Google Rich Results / Search Console verification.
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ExerciseGym",
   name: "BodyTech Gym & Fitness Center",
-  image: "https://your-deployed-domain.vercel.app/images/hero-main.jpg",
-  url: "https://your-deployed-domain.vercel.app",
+  image: "https://bodytech-gym-nextjs.vercel.app/images/hero-main.jpg",
+  url: "https://bodytech-gym-nextjs.vercel.app",
   telephone: "+92-300-0404070",
   address: {
     "@type": "PostalAddress",

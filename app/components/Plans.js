@@ -103,7 +103,7 @@ export default function Plans() {
                   <div className="flex items-center justify-between mt-auto pt-4 border-t border-border">
                     <p>
                       <span className="text-text font-display text-2xl">
-                        {plan.price}$
+                        Rs. {plan.price}
                       </span>
                       <span className="text-muted text-xs"> {plan.period}</span>
                     </p>

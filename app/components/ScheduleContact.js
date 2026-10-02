@@ -110,7 +110,7 @@ export default function ScheduleContact() {
           <div className="map-frame mt-4 rounded-xl overflow-hidden border border-border h-64">
             <iframe
               title="BodyTech Gym location on Google Maps"
-              src="https://www.google.com/maps?q=Gulgasht+Colony,+Multan&output=embed"
+              src="https://www.google.com/maps?q=30.2238152,71.4739092&z=17&output=embed"
               width="100%"
               height="100%"
               style={{ border: 0 }}
